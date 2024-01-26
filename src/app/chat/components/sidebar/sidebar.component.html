@@ -1,0 +1,37 @@
+<div class="flex h-full flex-col justify-between">
+  <!-- TOP -->
+  <div>
+    <header class="mb-8 flex items-center justify-between">
+      <h2 class="text-white text-xl font-bold">Channels</h2>
+      <button
+        class="flex size-8 items-center justify-center rounded-lg bg-gray-1 p-1 text-sm">
+        <mat-icon class="text-white">add</mat-icon>
+      </button>
+    </header>
+
+    <!-- Search -->
+    <section class="mb-8">
+      <div class="flex gap-4 rounded-lg bg-gray-0 p-2">
+        <div class="flex items-center justify-center">
+          <mat-icon class="text-white">search</mat-icon>
+        </div>
+        <input
+          class="bg-transparent flex-grow focus:outline-none"
+          type="text"
+          placeholder="Search" />
+      </div>
+    </section>
+
+    <!-- Channels -->
+    <app-channels />
+  </div>
+
+  <!-- BOTTOM -->
+  <!-- User Profile -->
+  <div>
+    <section class="flex items-center justify-between rounded-lg bg-gray-4 p-2">
+      <app-card />
+      <mat-icon class="text-white">expand_more</mat-icon>
+    </section>
+  </div>
+</div>

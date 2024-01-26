@@ -1,12 +1,11 @@
-import { Component } from '@angular/core';
+import { Component } from '@angular/core'
+import { MatIconModule } from '@angular/material/icon'
 
 @Component({
   selector: 'app-user-input',
   standalone: true,
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './user-input.component.html',
-  styleUrl: './user-input.component.scss'
+  styleUrl: './user-input.component.scss',
 })
-export class UserInputComponent {
-
-}
+export class UserInputComponent {}
