@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core'
-import { ChannelsComponent } from '../../chat/components/channels/channels.component'
 import { SidebarComponent } from '../../chat/components/sidebar/sidebar.component'
 import { UserChatComponent } from '../../chat/components/user-chat/user-chat.component'
 import { MenuService } from '../../chat/services/menu.service'

@@ -1,8 +1,10 @@
-<section class="flex h-dvh max-h-dvh">
+<section class="flex h-dvh max-h-dvh bg-gray-4">
   <div
     class="{{
-      isMenuOpened ? 'block' : 'hidden'
-    }} w-3/4 sm:w-auto bg-gray-2 p-4 lg:block">
+      isMenuOpened
+        ? 'translate-x-0 relative'
+        : '-translate-x-full fixed top-0 left-0 z-10 h-full'
+    }} lg:relative lg:translate-x-0 transition-all w-3/4 bg-gray-2 p-4 sm:w-auto">
     <app-sidebar />
   </div>
   <div class="relative w-full overflow-hidden bg-gray-1">
