@@ -10,4 +10,10 @@ import { CardComponent } from '../../../shared/components/card/card.component'
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
-export class SidebarComponent {}
+export class SidebarComponent {
+  isProfileOpened: boolean = false
+
+  toggleProfile() {
+    this.isProfileOpened = !this.isProfileOpened
+  }
+}
