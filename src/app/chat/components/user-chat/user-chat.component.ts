@@ -10,11 +10,12 @@ import { UserInputComponent } from '../user-input/user-input.component'
 import { MatIconModule } from '@angular/material/icon'
 import { MenuService } from '../../services/menu.service'
 import { Subscription } from 'rxjs'
+import { ChatMessageComponent } from '../chat-message/chat-message.component'
 
 @Component({
   selector: 'app-user-chat',
   standalone: true,
-  imports: [UserInputComponent, MatIconModule],
+  imports: [UserInputComponent, MatIconModule, ChatMessageComponent],
   templateUrl: './user-chat.component.html',
   styleUrl: './user-chat.component.scss',
 })
