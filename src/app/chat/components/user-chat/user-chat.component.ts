@@ -20,7 +20,7 @@ import { ChatMessageComponent } from '../chat-message/chat-message.component'
   styleUrl: './user-chat.component.scss',
 })
 export class UserChatComponent implements OnInit, OnDestroy {
-  menuService = inject(MenuService)
+  private menuService = inject(MenuService)
 
   isMenuOpened?: boolean
   isMenuOpenedSub$?: Subscription

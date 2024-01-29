@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs'
   styleUrl: './chat-page.component.scss',
 })
 export class ChatPageComponent implements OnInit, OnDestroy {
-  menuService = inject(MenuService)
+  private menuService = inject(MenuService)
 
   isMenuOpened?: boolean
   isMenuOpenedSub$?: Subscription
