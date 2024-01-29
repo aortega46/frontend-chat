@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core'
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core'
 import { CardComponent } from '../../../shared/components/card/card.component'
 import { MenuService } from '../../services/menu.service'
 import { Subscription } from 'rxjs'
+import { ChatMessage } from '../../interfaces/chat-message'
 
 @Component({
   selector: 'app-chat-message',
@@ -11,6 +12,8 @@ import { Subscription } from 'rxjs'
   styleUrl: './chat-message.component.scss',
 })
 export class ChatMessageComponent implements OnInit, OnDestroy {
+  @Input({ required: true }) payload!: ChatMessage
+
   private menuService = inject(MenuService)
 
   isMenuOpened?: boolean
