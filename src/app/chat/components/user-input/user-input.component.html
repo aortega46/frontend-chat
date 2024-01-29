@@ -1,10 +1,14 @@
-<div class="flex gap-2 rounded-lg bg-gray-0 p-4">
+<form
+  (ngSubmit)="sendMessage()"
+  [formGroup]="formMessage"
+  class="flex gap-2 rounded-lg bg-gray-0 p-4">
   <input
-    class="flex-grow overflow-clip bg-transparent focus:outline-none"
+    class="flex-grow overflow-clip bg-transparent text-white focus:outline-none"
+    formControlName="message"
     type="text"
     placeholder="Type a message" />
   <button
     class="flex items-center justify-center overflow-hidden rounded-lg bg-blue-0 p-2">
     <mat-icon class="text-white">send</mat-icon>
   </button>
-</div>
+</form>
