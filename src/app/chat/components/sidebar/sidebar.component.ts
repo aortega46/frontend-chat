@@ -12,6 +12,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms'
+import { ChatService } from '../../services/chat.service'
 
 @Component({
   selector: 'app-sidebar',
@@ -27,14 +28,16 @@ import {
   styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
+  private dialogService = inject(DialogService)
+  private fb = inject(FormBuilder)
+  private chatService = inject(ChatService)
+
   isProfileOpened: boolean = false
 
   dialog?: MatDialogRef<DialogComponent>
-  private dialogService = inject(DialogService)
-  private fb = inject(FormBuilder)
 
   myForm: FormGroup = this.fb.group({
-    name: ['', Validators.required, Validators.maxLength(12)],
+    name: ['', [Validators.required, Validators.maxLength(12)]],
   })
 
   toggleProfile() {
@@ -47,5 +50,13 @@ export class SidebarComponent {
 
   closeDialog() {
     this.dialog?.close()
+  }
+
+  addChannel() {
+    if (this.myForm.valid) {
+      this.chatService.addChannel(this.myForm.value)
+      this.closeDialog()
+      this.myForm.reset()
+    }
   }
 }

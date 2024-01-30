@@ -1,6 +1,5 @@
 <section class="flex flex-col gap-4">
-  <app-card />
-  <app-card />
-  <app-card />
-  <app-card />
+  @for (ch of chatService.channels$ | async; track $index) {
+    <app-card [name]="ch.name | uppercase" />
+  }
 </section>
