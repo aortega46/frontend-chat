@@ -1,5 +1,10 @@
 <section class="flex flex-col gap-4">
   @for (ch of chatService.channels$ | async; track $index) {
-    <app-card [name]="ch.name | uppercase" />
+    <button (click)="changeChannel(ch.name)">
+      <app-card
+        [name]="ch.name | uppercase"
+        class="block rounded-lg"
+        [ngClass]="{ 'bg-gray-0': (chatService.ch$ | async) === ch.name }" />
+    </button>
   }
 </section>

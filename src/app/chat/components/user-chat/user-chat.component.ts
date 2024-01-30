@@ -12,17 +12,23 @@ import { MenuService } from '../../services/menu.service'
 import { Subscription } from 'rxjs'
 import { ChatMessageComponent } from '../chat-message/chat-message.component'
 import { ChatService } from '../../services/chat.service'
-import { AsyncPipe } from '@angular/common'
+import { AsyncPipe, UpperCasePipe } from '@angular/common'
 
 @Component({
   selector: 'app-user-chat',
   standalone: true,
-  imports: [UserInputComponent, MatIconModule, ChatMessageComponent, AsyncPipe],
+  imports: [
+    UserInputComponent,
+    MatIconModule,
+    ChatMessageComponent,
+    AsyncPipe,
+    UpperCasePipe,
+  ],
   templateUrl: './user-chat.component.html',
   styleUrl: './user-chat.component.scss',
 })
 export class UserChatComponent implements OnInit, OnDestroy {
-  private chatService = inject(ChatService)
+  chatService = inject(ChatService)
   private menuService = inject(MenuService)
 
   chat = this.chatService.chat$

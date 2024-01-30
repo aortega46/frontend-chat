@@ -8,7 +8,9 @@
           isMenuOpened ? 'close' : 'menu'
         }}</mat-icon>
       </button>
-      <h1 class="text-xl font-bold text-white">CHANNEL</h1>
+      <h1 class="text-xl font-bold text-white">
+        {{ chatService.ch$ | async | uppercase }}
+      </h1>
     </header>
     <section
       class="h-[calc(100dvh_-_10.5rem)] overflow-y-scroll px-4 py-4 lg:px-28">

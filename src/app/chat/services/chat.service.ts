@@ -23,6 +23,9 @@ export class ChatService {
   ])
   channels$ = this._channels$.asObservable()
 
+  private _ch$ = new BehaviorSubject<string>('general')
+  ch$ = this._ch$.asObservable()
+
   constructor() {
     this.getAllChannels()
   }
@@ -42,6 +45,11 @@ export class ChatService {
       },
       error: () => {},
     })
+  }
+
+  joinChannel(channel: string) {
+    this._ch$.next(channel)
+    this._chat$.next([])
   }
 
   setChat(chatMsg: ChatMessage) {

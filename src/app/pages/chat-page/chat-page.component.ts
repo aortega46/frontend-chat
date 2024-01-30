@@ -18,12 +18,16 @@ export class ChatPageComponent implements OnInit, OnDestroy {
   isMenuOpenedSub$?: Subscription
 
   ngOnInit(): void {
-    this.isMenuOpenedSub$ = this.menuService
-      .getMenuState()
-      .subscribe(menu => (this.isMenuOpened = menu))
+    this.menuOpened()
   }
 
   ngOnDestroy(): void {
     this.isMenuOpenedSub$?.unsubscribe()
+  }
+
+  menuOpened() {
+    this.isMenuOpenedSub$ = this.menuService
+      .getMenuState()
+      .subscribe(menu => (this.isMenuOpened = menu))
   }
 }
