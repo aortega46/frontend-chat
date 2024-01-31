@@ -26,8 +26,26 @@ export class ChatService {
   private _ch$ = new BehaviorSubject<string>('general')
   ch$ = this._ch$.asObservable()
 
+  private _username$ = new BehaviorSubject<string>('Anon')
+  username$ = this._username$.asObservable()
+
+  server?: Socket
+
   constructor() {
     this.getAllChannels()
+    this.getUserName().then(username => this._username$.next(username))
+
+    // this.startServer()
+  }
+
+  startServer() {
+    // TODO: No name at start
+    console.log('Start server:', this._username$.getValue())
+    this.server = io('http://localhost:3001', {
+      auth: {
+        name: this._username$.getValue(),
+      },
+    })
   }
 
   getAllChannels() {
@@ -60,10 +78,29 @@ export class ChatService {
 
   sendMessage(payload: { message: string; channel?: string }) {
     const newChat: ChatMessage = {
-      user: { name: 'anon', avatar: 'none' },
+      user: { name: this._username$.getValue(), avatar: 'none' },
       message: payload.message,
       date: new Date().toLocaleString(),
     }
     this.setChat(newChat)
+  }
+
+  async getUserName(): Promise<string> {
+    const username = localStorage.getItem('username')
+    if (username) {
+      // console.log(`User exists ${username}`)
+      return username
+    }
+
+    const res = await fetch('https://random-data-api.com/api/users/random_user')
+    const { username: randomUsername } = await res.json()
+
+    localStorage.setItem('username', randomUsername)
+    return randomUsername
+  }
+
+  setUsername(username: string) {
+    localStorage.setItem('username', username)
+    this._username$.next(username)
   }
 }

@@ -2,7 +2,7 @@ import { Component, TemplateRef, inject } from '@angular/core'
 import { MatIconModule } from '@angular/material/icon'
 import { ChannelsComponent } from '../channels/channels.component'
 import { CardComponent } from '../../../shared/components/card/card.component'
-import { NgTemplateOutlet } from '@angular/common'
+import { AsyncPipe, JsonPipe, NgTemplateOutlet } from '@angular/common'
 import { DialogComponent } from '../../../shared/components/dialog/dialog.component'
 import { DialogService } from '../../../shared/services/dialog.service'
 import { MatDialogRef } from '@angular/material/dialog'
@@ -23,6 +23,8 @@ import { ChatService } from '../../services/chat.service'
     CardComponent,
     NgTemplateOutlet,
     ReactiveFormsModule,
+    AsyncPipe,
+    JsonPipe,
   ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
@@ -30,7 +32,7 @@ import { ChatService } from '../../services/chat.service'
 export class SidebarComponent {
   private dialogService = inject(DialogService)
   private fb = inject(FormBuilder)
-  private chatService = inject(ChatService)
+  chatService = inject(ChatService)
 
   isProfileOpened: boolean = false
 
@@ -55,6 +57,15 @@ export class SidebarComponent {
   addChannel() {
     if (this.myForm.valid) {
       this.chatService.addChannel(this.myForm.value)
+      this.closeDialog()
+      this.myForm.reset()
+    }
+  }
+
+  editProfile() {
+    if (this.myForm.valid) {
+      const { name } = this.myForm.value
+      this.chatService.setUsername(name)
       this.closeDialog()
       this.myForm.reset()
     }

@@ -1,50 +1,55 @@
-import { NgClass, NgStyle } from '@angular/common'
+import { NgStyle } from '@angular/common'
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core'
 
 import { colors } from '../../utils/cardColors'
+import { BehaviorSubject } from 'rxjs'
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [NgStyle, NgClass],
+  imports: [NgStyle],
   templateUrl: './card.component.html',
   styleUrl: './card.component.scss',
 })
-export class CardComponent implements OnInit, AfterViewInit {
+export class CardComponent implements OnInit, OnChanges {
   // TODO: Input image
   @ViewChild('avatarInitials') avatar?: ElementRef
 
-  @Input() name: string = 'RANDOM'
+  @Input() name!: string
   @Input() img?: string
 
-  private initials?: string
+  initials = new BehaviorSubject<string>('AN')
 
   ngOnInit(): void {
     this.getInitials()
   }
 
-  ngAfterViewInit(): void {
-    if (!this.img) {
-      this.avatar!.nativeElement.innerText = this.initials
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['name']) {
+      this.getInitials()
     }
   }
 
   getInitials() {
-    this.initials = this.name
+    const newInitials = this.name
       .split(' ')
       .slice(0, 2)
       .map(w => w.charAt(0).toUpperCase())
       .join('')
+
+    this.initials.next(newInitials)
   }
 
   get getColor(): string {
-    const charIndex = (this.initials!.charCodeAt(0) - 65) % colors.length
+    const currentInitals = this.initials.getValue()
+    const charIndex = (currentInitals.charCodeAt(0) - 65) % colors.length
     const customColor = colors[charIndex]
     return customColor
   }
