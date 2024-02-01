@@ -4,13 +4,13 @@ import { io, Socket } from 'socket.io-client'
 import { ChatMessage } from '../interfaces/chat-message'
 import { Channel } from '../interfaces/channel'
 import { HttpClient } from '@angular/common/http'
+import { environment } from '../../../environments/environment'
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
-  // TODO: Change to env var
-  private baseUrl = 'http://localhost:3000/api'
+  private baseUrl = environment.baseUrl
   private http = inject(HttpClient)
 
   private _chat$ = new BehaviorSubject<ChatMessage[]>([])
@@ -39,8 +39,7 @@ export class ChatService {
   }
 
   startServer() {
-    // TODO:  env var?
-    this.server = io('http://localhost:3001', {
+    this.server = io(environment.webSockets, {
       auth: {
         name: this._username$.getValue(),
       },
