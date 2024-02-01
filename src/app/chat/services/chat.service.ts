@@ -55,9 +55,12 @@ export class ChatService {
   }
 
   getAllChannels() {
-    this.http
-      .get<Channel[]>(this.baseUrl + '/channels')
-      .subscribe(channels => this._channels$.next(channels))
+    this.http.get<Channel[]>(this.baseUrl + '/channels').subscribe({
+      next: channels => this._channels$.next(channels),
+      error: () => {
+        console.error('Something went wrong getting the channels')
+      },
+    })
   }
 
   addChannel(channel: Channel) {
@@ -67,7 +70,9 @@ export class ChatService {
         const state = [...current, ch]
         this._channels$.next(state)
       },
-      error: () => {},
+      error: () => {
+        console.error('Something went wrong adding the channel')
+      },
     })
   }
 
