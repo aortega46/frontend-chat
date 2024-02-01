@@ -33,18 +33,25 @@ export class ChatService {
 
   constructor() {
     this.getAllChannels()
-    this.getUserName().then(username => this._username$.next(username))
-
-    // this.startServer()
+    this.getUserName()
+      .then(username => this._username$.next(username))
+      .then(() => this.startServer())
   }
 
   startServer() {
-    // TODO: No name at start
-    console.log('Start server:', this._username$.getValue())
+    // TODO:  env var?
     this.server = io('http://localhost:3001', {
       auth: {
         name: this._username$.getValue(),
       },
+    })
+
+    this.handleIncomingMessages()
+  }
+
+  handleIncomingMessages() {
+    this.server!.on('chat message', msg => {
+      this.setChat(msg)
     })
   }
 
@@ -67,6 +74,7 @@ export class ChatService {
 
   joinChannel(channel: string) {
     this._ch$.next(channel)
+    this.server?.emit('channel join', channel)
     this._chat$.next([])
   }
 
@@ -77,18 +85,19 @@ export class ChatService {
   }
 
   sendMessage(payload: { message: string; channel?: string }) {
+    const currentChannel = this._ch$.getValue()
     const newChat: ChatMessage = {
       user: { name: this._username$.getValue(), avatar: 'none' },
+      channel: currentChannel,
       message: payload.message,
       date: new Date().toLocaleString(),
     }
-    this.setChat(newChat)
+    this.server?.emit('chat message', newChat)
   }
 
   async getUserName(): Promise<string> {
     const username = localStorage.getItem('username')
     if (username) {
-      // console.log(`User exists ${username}`)
       return username
     }
 
