@@ -1,9 +1,10 @@
 import {
+  AfterViewInit,
   Component,
-  EventEmitter,
+  ElementRef,
   OnDestroy,
   OnInit,
-  Output,
+  ViewChild,
   inject,
 } from '@angular/core'
 import { UserInputComponent } from '../user-input/user-input.component'
@@ -27,26 +28,46 @@ import { AsyncPipe, UpperCasePipe } from '@angular/common'
   templateUrl: './user-chat.component.html',
   styleUrl: './user-chat.component.scss',
 })
-export class UserChatComponent implements OnInit, OnDestroy {
+export class UserChatComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('messageList') messageList!: ElementRef
+
   chatService = inject(ChatService)
   private menuService = inject(MenuService)
 
   chat = this.chatService.chat$
 
   isMenuOpened?: boolean
-  isMenuOpenedSub$?: Subscription
+
+  listSubs$: Array<Subscription> = []
 
   ngOnInit(): void {
-    this.isMenuOpenedSub$ = this.menuService
+    const menuSub$ = this.menuService
       .getMenuState()
       .subscribe(menu => (this.isMenuOpened = menu))
+
+    this.listSubs$.push(menuSub$)
+  }
+
+  ngAfterViewInit(): void {
+    this.scrollToBottom()
   }
 
   ngOnDestroy(): void {
-    this.isMenuOpenedSub$?.unsubscribe()
+    this.listSubs$.forEach(u => u.unsubscribe())
   }
 
   toggleMenu() {
     this.menuService.setMenuState(!this.isMenuOpened)
+  }
+
+  scrollToBottom() {
+    const chatSub$ = this.chat.subscribe(() => {
+      setTimeout(() => {
+        this.messageList.nativeElement.scrollTop =
+          this.messageList.nativeElement.scrollHeight
+      }, 50)
+    })
+
+    this.listSubs$.push(chatSub$)
   }
 }

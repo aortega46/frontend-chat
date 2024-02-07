@@ -13,7 +13,8 @@
       </h1>
     </header>
     <section
-      class="h-[calc(100dvh_-_10.5rem)] overflow-y-scroll px-4 py-4 lg:px-28">
+      #messageList
+      class="h-[calc(100dvh_-_10.5rem)] overflow-y-scroll scroll-smooth px-4 py-4 lg:px-28">
       @for (msg of chat | async; track $index) {
         <app-chat-message [payload]="msg" />
       }
